@@ -1,0 +1,14 @@
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  .square {
+    border-radius:0px;
+  }
+  
+  .jumbotron {
+    background-image: linear-gradient(to right, #9b5dc2, #000);
+    color: #fff;
+  }
