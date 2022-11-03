@@ -12,3 +12,8 @@ body {
     background-image: linear-gradient(to right, #9b5dc2, #000);
     color: #fff;
   }
+
+  .anticon svg {
+    display: inline-block;
+    margin-bottom: 6px;
+}
