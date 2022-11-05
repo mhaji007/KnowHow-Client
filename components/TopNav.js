@@ -9,26 +9,26 @@ import {
 
 const { Item } = Menu;
 
+const menuItems = [
+  {
+    key: "/",
+    icon: <AppstoreOutlined />,
+    label: <Link href="/"> App</Link>,
+  },
+  {
+    key: "/login",
+    icon: <LoginOutlined />,
+    label: <Link href="/login"> Login</Link>,
+  },
+  {
+    key: "/register",
+    icon: <UserAddOutlined />,
+    label: <Link href="/register"> Register</Link>,
+  },
+];
+
 function TopNav() {
-  return (
-    <Menu mode="horizontal">
-    <Item icon={<AppstoreOutlined />}>
-      <Link href="/">
-        App
-      </Link>
-    </Item>
-    <Item icon={<LoginOutlined />}>
-      <Link href="/login">
-        Login
-      </Link>
-    </Item>
-    <Item icon={<UserAddOutlined />}>
-      <Link href="/register">
-        Register
-      </Link>
-    </Item>
-  </Menu>
-);
+  return <Menu mode="horizontal" items={menuItems} />;
 }
 
 export default TopNav;
