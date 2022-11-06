@@ -17,8 +17,12 @@ const FormInput = (props) => {
         {...inputProps}
         onChange={onChange}
         onBlur={handleFocus}
+        // Password is the last field. Uesr likely won't click elsewhere
+        // but the submit button so onBlur (touch and click away) won't
+        // work here. Need a mechanism to dsiplay the error as soon as
+        // the input field is focused (touched, clicked)
         onFocus={() =>
-          inputProps.name === "confirmPassword" && setFocused(true)
+          inputProps.name === "password" && setFocused(true)
         }
         focused={focused.toString()}
       />

@@ -57,9 +57,8 @@
 // Register form using custom css
 import React, { useState } from "react";
 import FormInput from "../components/FormInput";
-import styles from "./register.module.css"
+import styles from "./register.module.css";
 import axios from "axios";
-
 
 const Register = () => {
   const [values, setValues] = useState({
@@ -74,9 +73,9 @@ const Register = () => {
     name: "",
     email: "",
     password: "",
-  })
+  });
 
-  const {name, email, password} = values
+  const { name, email, password } = values;
 
   const [inputs, setInputs] = useState([
     {
@@ -89,7 +88,6 @@ const Register = () => {
       label: "Name",
       pattern: "^[A-Za-z0-9]{3,16}$",
       required: true,
-      
     },
     {
       id: 2,
@@ -111,26 +109,27 @@ const Register = () => {
       pattern: `^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$`,
       required: true,
     },
-  ])
+  ]);
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // console.table({ name, email, password });
-    const {data} = await axios.post("http://localhost:8000/api/register", {
-        name,
-        email,
-        password,
+    const { data } = await axios.post("http://localhost:8000/api/register", {
+      name,
+      email,
+      password,
     });
-
-    // setValues({ name: "", email: "", password:""});
-    //     setInputs(input=>
-    //       input.map(obj => {{
-    //           return {...obj,errorMessage:""};
-    //         }
-    //       }),
-    //     );
-      
-    console.log("Register Response", data)
+    if (data.ok) {
+      setValues({ name: "", email: "", password: "" });
+      setInputs((input) =>
+        input.map((obj) => {
+          {
+            return { ...obj, errorMessage: "" };
+          }
+        })
+      );
+    }
+    console.log("Register Response", data);
   };
 
   const onChange = (e) => {
