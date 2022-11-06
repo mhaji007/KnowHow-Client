@@ -58,6 +58,7 @@
 import React, { useState } from "react";
 import FormInput from "../components/FormInput";
 import styles from "./register.module.css"
+import axios from "axios";
 
 
 const Register = () => {
@@ -69,9 +70,15 @@ const Register = () => {
     // confirmPassword: "",
   });
 
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+    password: "",
+  })
+
   const {name, email, password} = values
 
-  const inputs = [
+  const [inputs, setInputs] = useState([
     {
       id: 1,
       name: "name",
@@ -93,13 +100,6 @@ const Register = () => {
       label: "Email",
       required: true,
     },
-    // {
-    //   id: 3,
-    //   name: "birthday",
-    //   type: "date",
-    //   placeholder: "Birthday",
-    //   label: "Birthday",
-    // },
     {
       id: 4,
       name: "password",
@@ -111,21 +111,26 @@ const Register = () => {
       pattern: `^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$`,
       required: true,
     },
-    // {
-    //   id: 5,
-    //   name: "confirmPassword",
-    //   type: "password",
-    //   placeholder: "Confirm Password",
-    //   errorMessage: "Passwords don't match!",
-    //   label: "Confirm Password",
-    //   pattern: values.password,
-    //   required: true,
-    // },
-  ];
+  ])
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    console.table({ name, email, password });
+    // console.table({ name, email, password });
+    const {data} = await axios.post("http://localhost:8000/api/register", {
+        name,
+        email,
+        password,
+    });
+
+    // setValues({ name: "", email: "", password:""});
+    //     setInputs(input=>
+    //       input.map(obj => {{
+    //           return {...obj,errorMessage:""};
+    //         }
+    //       }),
+    //     );
+      
+    console.log("Register Response", data)
   };
 
   const onChange = (e) => {
