@@ -59,6 +59,7 @@ import React, { useState } from "react";
 import FormInput from "../components/FormInput";
 import styles from "./register.module.css";
 import axios from "axios";
+import {toast} from "react-toastify";
 
 const Register = () => {
   const [values, setValues] = useState({
@@ -114,22 +115,27 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // console.table({ name, email, password });
-    const { data } = await axios.post("http://localhost:8000/api/register", {
-      name,
-      email,
-      password,
-    });
-    if (data.ok) {
-      setValues({ name: "", email: "", password: "" });
-      setInputs((input) =>
+    try {
+      const { data } = await axios.post("http://localhost:8000/api/register", {
+        name,
+        email,
+        password,
+      });
+      if (data.ok) {
+        setValues({ name: "", email: "", password: "" });
+        toast.success("Registration successful. Please proceed to login")
+        setInputs((input) =>
         input.map((obj) => {
-          {
-            return { ...obj, errorMessage: "" };
-          }
-        })
-      );
+            {
+                return { ...obj, errorMessage: "" };
+            }
+          })
+        );
+      }
+      console.log("Register Response", data);
+    } catch (err) {
+      toast.error(err.response.data);
     }
-    console.log("Register Response", data);
   };
 
   const onChange = (e) => {
