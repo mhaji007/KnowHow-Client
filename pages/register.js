@@ -145,6 +145,7 @@ const Register = () => {
   return (
     <div className={styles.register}>
       <form className={styles.form} onSubmit={handleSubmit}>
+        {/* <div className={styles.formExtursion}></div> */}
         <h1 className={styles.h1}>Register</h1>
         {inputs.map((input) => (
           <FormInput
