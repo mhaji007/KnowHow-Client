@@ -59,7 +59,8 @@ import React, { useState } from "react";
 import FormInput from "../components/FormInput";
 import styles from "./register.module.css";
 import axios from "axios";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
+import { SyncOutlined } from "@ant-design/icons";
 
 const Register = () => {
   const [values, setValues] = useState({
@@ -67,6 +68,7 @@ const Register = () => {
     email: "",
     // birthday: "",
     password: "",
+    loading: false,
     // confirmPassword: "",
   });
 
@@ -76,7 +78,7 @@ const Register = () => {
     password: "",
   });
 
-  const { name, email, password } = values;
+  const { name, email, password, loading } = values;
 
   const [inputs, setInputs] = useState([
     {
@@ -116,6 +118,7 @@ const Register = () => {
     e.preventDefault();
     // console.table({ name, email, password });
     try {
+      setValues({ ...values, loading: true });
       const { data } = await axios.post("http://localhost:8000/api/register", {
         name,
         email,
@@ -123,19 +126,21 @@ const Register = () => {
       });
       if (data.ok) {
         setValues({ name: "", email: "", password: "" });
-        toast.success("Registration successful. Please proceed to login")
+        toast.success("Registration successful. Please proceed to login");
         setInputs((input) =>
-        input.map((obj) => {
+          input.map((obj) => {
             {
-                return { ...obj, errorMessage: "" };
+              return { ...obj, errorMessage: "" };
             }
           })
         );
       }
       console.log("Register Response", data);
     } catch (err) {
+      console.log("Register Error", err);
       toast.error(err.response.data);
     }
+    setValues({ ...values, loading: false });
   };
 
   const onChange = (e) => {
@@ -155,7 +160,9 @@ const Register = () => {
             onChange={onChange}
           />
         ))}
-        <button className={styles.button}>Submit</button>
+        <button className={styles.button}>
+          {loading ? <SyncOutlined spin /> : "Submit"}
+        </button>
       </form>
     </div>
   );
