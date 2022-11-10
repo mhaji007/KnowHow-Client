@@ -119,7 +119,7 @@ const Register = () => {
     // console.table({ name, email, password });
     try {
       setValues({ ...values, loading: true });
-      const { data } = await axios.post("http://localhost:8000/api/register", {
+      const { data } = await axios.post(`${process.env.NEXT_PUBLIC_API}/register`, {
         name,
         email,
         password,
