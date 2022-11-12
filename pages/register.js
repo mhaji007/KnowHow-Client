@@ -149,7 +149,7 @@ const Register = () => {
   };
 
   return (
-    <>
+    // <div className={styles.wrapper}>
     <div className={styles.register}>
       <form className={styles.form} onSubmit={handleSubmit}>
         {/* <div className={styles.formExtursion}></div> */}
@@ -165,15 +165,15 @@ const Register = () => {
         <button className={styles.button}>
           {loading ? <SyncOutlined spin /> : "Submit"}
         </button>
-      </form>
-    </div>
-      <p className="text-center p-3">
+      <p className="text-center">
           Already registered?{" "}
           <Link href="/login">
        Login
           </Link>
         </p>
-        </>
+        {/* </div> */}
+      </form>
+    </div>
   );
 };
 export default Register;
