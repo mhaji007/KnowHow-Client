@@ -1,4 +1,5 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import { Menu } from "antd";
 import Link from "next/link";
 import {
@@ -6,9 +7,9 @@ import {
   LoginOutlined,
   UserAddOutlined,
 } from "@ant-design/icons";
+import { useRouter } from "next/router";
 
 const { Item } = Menu;
-
 const menuItems = [
   {
     key: "/",
@@ -26,9 +27,25 @@ const menuItems = [
     label: <Link href="/register"> Register</Link>,
   },
 ];
+let isServer = (typeof window === "undefined")? false : true
 
 function TopNav() {
-  return <Menu mode="horizontal" items={menuItems} />;
+  const router = useRouter();
+  // Keep track of page user is on at any moment
+  const [current, setCurrent] = useState("");
+  useEffect(() => {
+    setCurrent(router.pathname, console.log(current));
+    console.log("router.pathname", router.pathname)
+    console.log(isServer)
+    console.log(current)
+  }, [isServer && router.pathname]);
+
+  const onMenuClick = (e) => {
+    setCurrent(e.key,console.log("current from onClick",current));
+  
+  };
+
+  return <Menu mode="horizontal" items={menuItems} onClick={onMenuClick} />;
 }
 
 export default TopNav;

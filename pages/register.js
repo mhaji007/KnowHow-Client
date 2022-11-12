@@ -61,6 +61,7 @@ import styles from "./register.module.css";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { SyncOutlined } from "@ant-design/icons";
+import Link from "next/link"
 
 const Register = () => {
   const [values, setValues] = useState({
@@ -148,6 +149,7 @@ const Register = () => {
   };
 
   return (
+    <>
     <div className={styles.register}>
       <form className={styles.form} onSubmit={handleSubmit}>
         {/* <div className={styles.formExtursion}></div> */}
@@ -165,6 +167,13 @@ const Register = () => {
         </button>
       </form>
     </div>
+      <p className="text-center p-3">
+          Already registered?{" "}
+          <Link href="/login">
+       Login
+          </Link>
+        </p>
+        </>
   );
 };
 export default Register;
