@@ -67,10 +67,8 @@ const Register = () => {
   const [values, setValues] = useState({
     name: "",
     email: "",
-    // birthday: "",
     password: "",
     loading: false,
-    // confirmPassword: "",
   });
 
   const [errors, setErrors] = useState({
@@ -126,7 +124,7 @@ const Register = () => {
         password,
       });
       if (data.ok) {
-        setValues({ name: "", email: "", password: "" });
+        setValues({ ...values, name: "", email: "", password: "" });
         toast.success("Registration successful. Please proceed to login");
         setInputs((input) =>
           input.map((obj) => {
