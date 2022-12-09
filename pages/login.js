@@ -55,9 +55,8 @@ const Login = () => {
           password,
         }
       );
-      if (data.ok) {
         setValues({ ...values, email: "", password: "" });
-        toast.success("Login successful...");
+        toast.success("Login successful. Please proceed to login");
         setInputs((input) =>
           input.map((obj) => {
             {
@@ -65,7 +64,6 @@ const Login = () => {
             }
           })
         );
-      }
       console.log("login Response", data);
     } catch (err) {
       console.log("login Error", err);
