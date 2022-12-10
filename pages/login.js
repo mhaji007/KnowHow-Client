@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import FormInput from "../components/FormInput";
 import styles from "./login.module.css";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { SyncOutlined } from "@ant-design/icons";
 import Link from "next/link";
+import { Context } from "../context";
 
 const Login = () => {
   const [values, setValues] = useState({
@@ -42,10 +43,14 @@ const Login = () => {
       required: true,
     },
   ]);
+  // state
+  const {state, dispatch} = useContext(Context)
 
+  console.log("State", state)
   const handleSubmit = async (e) => {
     e.preventDefault();
     // console.table({ name, email, password });
+
     try {
       setValues({ ...values, loading: true });
       const { data } = await axios.post(
@@ -55,6 +60,10 @@ const Login = () => {
           password,
         }
       );
+      dispatch({
+        type: 'LOGIN',
+        payload:data
+      })
         setValues({ ...values, email: "", password: "" });
         toast.success("Login successful. Please proceed to login");
         setInputs((input) =>
@@ -64,6 +73,7 @@ const Login = () => {
             }
           })
         );
+
       console.log("login Response", data);
     } catch (err) {
       console.log("login Error", err);
