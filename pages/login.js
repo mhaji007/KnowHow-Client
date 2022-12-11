@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { SyncOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { Context } from "../context";
+import { useRouter } from "next/router";
 
 const Login = () => {
   const [values, setValues] = useState({
@@ -44,9 +45,13 @@ const Login = () => {
     },
   ]);
   // state
-  const {state, dispatch} = useContext(Context)
+  const { state, dispatch } = useContext(Context);
 
-  console.log("State", state)
+  console.log("State", state);
+
+  // Router
+  const router = useRouter();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     // console.table({ name, email, password });
@@ -61,18 +66,29 @@ const Login = () => {
         }
       );
       dispatch({
-        type: 'LOGIN',
-        payload:data
-      })
-        setValues({ ...values, email: "", password: "" });
-        toast.success("Login successful. Please proceed to login");
-        setInputs((input) =>
-          input.map((obj) => {
-            {
-              return { ...obj, errorMessage: "" };
-            }
-          })
-        );
+        type: "LOGIN",
+        payload: data,
+      });
+      // Up until now if we refresh the page
+      // the user detail from retrieved from
+      // the state is lost. We need to persist the
+      // state on page refresh
+
+      // Save user data in local storage
+      window.localStorage.setItem("user", JSON.stringify(data));
+
+      // Redirect user
+      router.push("/");
+
+      setValues({ ...values, email: "", password: "" });
+      toast.success("Login successful. Please proceed to login");
+      setInputs((input) =>
+        input.map((obj) => {
+          {
+            return { ...obj, errorMessage: "" };
+          }
+        })
+      );
 
       console.log("login Response", data);
     } catch (err) {
