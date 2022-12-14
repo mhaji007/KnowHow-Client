@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import FormInput from "../components/FormInput";
 import styles from "./login.module.css";
 import axios from "axios";
@@ -44,13 +44,24 @@ const Login = () => {
       required: true,
     },
   ]);
-  // state
-  const { state, dispatch } = useContext(Context);
+  
+   // useContext grants access to state
+  const {state:{user}, dispatch} = useContext(Context)
 
-  console.log("State", state);
+
+  // console.log("State", state);
 
   // Router
   const router = useRouter();
+
+    // On component mount redirect users away
+  // from login page if they are aleady logged in
+
+  useEffect(() =>{
+
+    if(user !== null) router.push("/")
+
+  }, [user])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -70,14 +81,14 @@ const Login = () => {
         payload: data,
       });
       // Up until now if we refresh the page
-      // the user detail from retrieved from
+      // the user detail retrieved from
       // the state is lost. We need to persist the
       // state on page refresh
 
       // Save user data in local storage
       window.localStorage.setItem("user", JSON.stringify(data));
 
-      // Redirect user
+      // Redirect user after successful login
       router.push("/");
 
       setValues({ ...values, email: "", password: "" });

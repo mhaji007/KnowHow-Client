@@ -55,13 +55,15 @@
 //===============================================================================//
 
 // Register form using custom css
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import FormInput from "../components/FormInput";
 import styles from "./register.module.css";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { SyncOutlined } from "@ant-design/icons";
-import Link from "next/link"
+import Link from "next/link";
+import { Context } from "../context";
+import { useRouter } from "next/router";
 
 const Register = () => {
   const [values, setValues] = useState({
@@ -113,16 +115,34 @@ const Register = () => {
     },
   ]);
 
+  // useContext grants access to state
+  const {
+    state: { user },
+    dispatch,
+  } = useContext(Context);
+
+  // Router
+  const router = useRouter();
+
+  // On component mount redirect users away
+  // from register page if they are aleady logged in
+  useEffect(() => {
+    if (user !== null) router.push("/");
+  }, [user]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     // console.table({ name, email, password });
     try {
       setValues({ ...values, loading: true });
-      const { data } = await axios.post(`${process.env.NEXT_PUBLIC_API}/register`, {
-        name,
-        email,
-        password,
-      });
+      const { data } = await axios.post(
+        `${process.env.NEXT_PUBLIC_API}/register`,
+        {
+          name,
+          email,
+          password,
+        }
+      );
       if (data.ok) {
         setValues({ ...values, name: "", email: "", password: "" });
         toast.success("Registration successful. Please proceed to login");
@@ -163,11 +183,8 @@ const Register = () => {
         <button className={styles.button}>
           {loading ? <SyncOutlined spin /> : "Submit"}
         </button>
-      <p className="text-center">
-          Already registered?{" "}
-          <Link href="/login">
-       Login
-          </Link>
+        <p className="text-center">
+          Already registered? <Link href="/login">Login</Link>
         </p>
         {/* </div> */}
       </form>
