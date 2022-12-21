@@ -74,7 +74,8 @@ const Login = () => {
         {
           email,
           password,
-        }
+        },
+        {withCredentials:true}
       );
       dispatch({
         type: "LOGIN",
@@ -104,7 +105,7 @@ const Login = () => {
       console.log("login Response", data);
     } catch (err) {
       console.log("login Error", err);
-      toast.error(err.response.data);
+      // toast.error(err.response.data);
     }
     setValues({ ...values, loading: false });
   };

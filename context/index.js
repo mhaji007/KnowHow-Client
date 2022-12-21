@@ -81,7 +81,8 @@ const Provider = ({ children }) => {
       console.log("CSRF", data);
       // include the CSRF token retrieved from backend
       // on all requests
-      axios.defaults.headers["X-CSRF-Token"] = data.getcsrfToken;
+      axios.defaults.headers['x-csrf-token'] = data.csrfToken;
+    //   console.log("axios headers", axios.defaults.headers);
     };
     getCsrfToken();
   }, []);
