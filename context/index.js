@@ -57,7 +57,7 @@ const Provider = ({ children }) => {
       if (res.status === 401 && res.config && !res.config.__isRetryRequest) {
         return new Promise((resolve, reject) => {
           axios
-            .get("/api/logout")
+            .get("/logout")
             .then((data) => {
               console.log("/401 error => logout");
               dispatch({ type: "LOGOUT" });

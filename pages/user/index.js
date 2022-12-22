@@ -14,6 +14,25 @@ const UserIndex = () => {
     fetchUser();
   }, []);
 
+// ======================================================================================== /
+// "TypeError: Cannot read properties of undefined (reading '_id') at currentUser" 
+// occurs due to the user varialble from Context returning null
+
+// Partial Solution: Get auth from context 
+// That resolves the issue for logged in users, but when logged out (or no token)
+// this will resolve to false and fetchUser() does not run, the redirect for unauthorized
+// users never occurs and the page does not redirect to login 
+
+//   useEffect((auth?.token) => {
+//     fetchUser();
+//   }, [auth?.token]);
+
+// Correct Solution: 
+// replace 
+// const user = await User.findById(req.user._id).exec in server code with
+// const user = await User.findById(req.auth._id).exec
+// ======================================================================================== /
+
   const fetchUser = async () => {
     try {
       const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API}/current-user`, {withCredentials:true});
