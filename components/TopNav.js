@@ -1,16 +1,17 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { Menu } from "antd";
+import { Menu, SubMenu } from "antd";
 import { toast } from "react-toastify";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import {
   AppstoreOutlined,
   LoginOutlined,
+  MenuOutlined,
   UserAddOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
-import { Context } from "../context"
+import { Context } from "../context";
 
 const { Item } = Menu;
 
@@ -18,19 +19,46 @@ const TopNav = () => {
   // Keep track of page user is on at any moment
   const [current, setCurrent] = useState("");
   const { state, dispatch } = useContext(Context);
+  // Destructure user for conditionally
+  // displaying nav links
+  const { user } = state;
 
   const router = useRouter();
 
   const onMenuClick = (e) => {
     const { key } = e;
-    if(key === "logout") {
-      logout()
+    if (key === "logout") {
+      logout();
     }
     console.log(key);
     setCurrent(key);
   };
 
-  const menuItems = [
+  const userName = user && user.name
+
+  const hasUserMenuItems = [
+    {
+      key: "home",
+      icon: <AppstoreOutlined />,
+      label: <Link href="/">Home</Link>,
+    },
+
+    {
+      label: userName,
+      key: "SubMenu",
+      icon: <MenuOutlined />,
+      className: "ms-auto",
+      children: [
+        {
+          key: "logout",
+          icon: <LogoutOutlined />,
+          label: "Logout",
+        },
+      ],
+    },
+  ];
+
+  const hasNoUserMenuItems = [
     {
       key: "home",
       icon: <AppstoreOutlined />,
@@ -46,12 +74,6 @@ const TopNav = () => {
       icon: <UserAddOutlined />,
       label: <Link href="/register">Register</Link>,
     },
-    {
-      key: "logout",
-      icon: <LogoutOutlined />,
-      label: "Logout",
-      className:"ms-auto"
-    },
   ];
 
   useEffect(() => {
@@ -65,14 +87,17 @@ const TopNav = () => {
   const logout = async () => {
     dispatch({ type: "LOGOUT" });
     window.localStorage.removeItem("user");
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API}/logout`, {withCredentials:true});
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API}/logout`, {
+      withCredentials: true,
+    });
     toast.success(response.data.message);
     router.push("/login");
   };
 
   return (
     <Menu
-      items={menuItems}
+
+      items={user ? hasUserMenuItems : hasNoUserMenuItems}
       mode="horizontal"
       onClick={onMenuClick}
       selectedKeys={current}
