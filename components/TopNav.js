@@ -34,7 +34,7 @@ const TopNav = () => {
     setCurrent(key);
   };
 
-  const userName = user && user.name
+  const userName = user && user.name;
 
   const hasUserMenuItems = [
     {
@@ -49,6 +49,10 @@ const TopNav = () => {
       icon: <MenuOutlined />,
       className: "ms-auto",
       children: [
+        {
+          key: "user",
+          label: <Link href="/user">Dashboard</Link>,
+        },
         {
           key: "logout",
           icon: <LogoutOutlined />,
@@ -96,7 +100,6 @@ const TopNav = () => {
 
   return (
     <Menu
-
       items={user ? hasUserMenuItems : hasNoUserMenuItems}
       mode="horizontal"
       onClick={onMenuClick}
