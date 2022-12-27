@@ -103,6 +103,7 @@ const ForgotPassword = () => {
       setCode("");
       setNewPassword("");
       setValues({ ...values, email:"", loading: false });
+      toast.success("Password updated successfully. You may now login again with your new password.");
     } catch (err) {
       setValues({ ...values, email:"", loading: false });
       console.log("Reset Password Error", err);
