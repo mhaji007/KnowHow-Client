@@ -77,7 +77,7 @@ const Provider = ({ children }) => {
   useEffect(() => {
     const getCsrfToken = async () => {
       // Retrieve CSRF token from backend
-      const { data } = await axios.get("/api/csrf-token");
+      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API}/csrf-token`);
       console.log("CSRF", data);
       // include the CSRF token retrieved from backend
       // on all requests

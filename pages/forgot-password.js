@@ -68,8 +68,7 @@ const ForgotPassword = () => {
         `${process.env.NEXT_PUBLIC_API}/forgot-password`,
         {
           email,
-        },
-        {withCredentials:true}
+        }
       );
       setValues({ ...values, email: "" });
       setSuccess(true);
@@ -101,12 +100,12 @@ const ForgotPassword = () => {
         code,
         newPassword,
       });
-      setEmail("");
       setCode("");
       setNewPassword("");
-      setValues({ ...values, loading: false });
+      setValues({ ...values, email:"", loading: false });
     } catch (err) {
-        setValues({ ...values, loading: false });
+      setValues({ ...values, email:"", loading: false });
+      console.log("Reset Password Error", err);
       toast(err.response.data);
     }
   };

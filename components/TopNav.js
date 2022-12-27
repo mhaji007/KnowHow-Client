@@ -91,9 +91,7 @@ const TopNav = () => {
   const logout = async () => {
     dispatch({ type: "LOGOUT" });
     window.localStorage.removeItem("user");
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API}/logout`, {
-      withCredentials: true,
-    });
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API}/logout`);
     toast.success(response.data.message);
     router.push("/login");
   };

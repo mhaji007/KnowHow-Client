@@ -33,7 +33,7 @@ const router = useRouter();
 
   const fetchUser = async () => {
     try {
-      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API}/current-user`, {withCredentials:true});
+      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API}/current-user`);
       console.log("data===>", data);
       if (data) setOk(true);
     } catch (err) {

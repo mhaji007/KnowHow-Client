@@ -75,7 +75,6 @@ const Login = () => {
           email,
           password,
         },
-        {withCredentials:true}
       );
       dispatch({
         type: "LOGIN",
