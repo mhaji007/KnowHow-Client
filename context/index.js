@@ -44,6 +44,10 @@ const Provider = ({ children }) => {
 
   // Interceptors are called for every request
   axios.interceptors.response.use(
+    // function (config) {
+    //     config.withCredentials=true;
+    //     return config;
+    // },
     function (response) {
       // Any status code that lies wihthin the range of 2XX cause
       // this function to trigger;

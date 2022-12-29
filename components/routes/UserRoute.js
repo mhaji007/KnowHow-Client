@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { SyncOutlined } from "@ant-design/icons";
+import UserNav from "../nav/UserNav";
 
 const UserRoute = ({children}) => {
   // state
@@ -33,7 +34,7 @@ const router = useRouter();
 
   const fetchUser = async () => {
     try {
-      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API}/current-user`);
+      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API}/current-user`, {withCredentials: true});
       console.log("data===>", data);
       if (data) setOk(true);
     } catch (err) {
@@ -51,7 +52,14 @@ const router = useRouter();
           className="d-flex justify-content-center display-1 text-primary p-5"
         />
       ) : (
-        <>{children}</>
+        <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-2">
+            <UserNav />
+          </div>
+          <div className="col-md-10">{children}</div>
+        </div>
+      </div>
       )}
     </>
   );
