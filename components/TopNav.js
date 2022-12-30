@@ -10,6 +10,8 @@ import {
   MenuOutlined,
   UserAddOutlined,
   LogoutOutlined,
+  CarryOutOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
 import { Context } from "../context";
 
@@ -80,6 +82,86 @@ const TopNav = () => {
     },
   ];
 
+  const userIsInstructorMenuItems = [
+    {
+      key: "home",
+      icon: <AppstoreOutlined />,
+      label: <Link href="/">Home</Link>,
+    },
+    {
+      key: "user/become-instructor",
+      icon: <TeamOutlined />,
+      label: <Link href="/user/become-instructor">Become an Instructor</Link>,
+      className: "ms-auto",
+    },
+
+    {
+      label: userName,
+      key: "SubMenu",
+      icon: <MenuOutlined />,
+
+      children: [
+        {
+          key: "user",
+          label: <Link href="/user">Dashboard</Link>,
+        },
+        {
+          key: "logout",
+          icon: <LogoutOutlined />,
+          label: "Logout",
+        },
+      ],
+    },
+  ];
+
+  const userIsNotInstructorMenuItems = [
+    {
+      key: "home",
+      icon: <AppstoreOutlined />,
+      label: <Link href="/">Home</Link>,
+    },
+    {
+      key: "user/become-instructor",
+      icon: <TeamOutlined />,
+      label: <Link href="/user/become-instructor">Become an Instructor</Link>,
+      className: "ms-auto",
+    },
+
+    {
+      label: userName,
+      key: "SubMenu",
+      icon: <MenuOutlined />,
+      children: [
+        {
+          key: "user",
+          label: <Link href="/user">Dashboard</Link>,
+        },
+        {
+          key: "logout",
+          icon: <LogoutOutlined />,
+          label: "Logout",
+        },
+      ],
+    },
+  
+  ];
+
+  const renderMenuItems = (user) => {
+    console.log("user", user);
+    // if (user) {
+    //   if (user && user.role && user.role.includes("Instructor")) {
+    //     return userIsInstructorMenuItems;
+    //   } else if (user && user.role && !user.role.includes("Instructor")) {
+    //     return userIsNotInstructorMenuItems;
+    //   } else {
+    //     return hasUserMenuItems;
+    //   }
+    // }
+    return hasNoUserMenuItems;
+  };
+
+
+
   useEffect(() => {
     let cleanpath = window.location.pathname;
     while (cleanpath.charAt(0) === "/") {
@@ -96,13 +178,26 @@ const TopNav = () => {
     router.push("/login");
   };
 
+  const userIsInstructor = user && user.role.includes("Instructor")
+  console.log ("userIsInstructor", userIsInstructor)
+
   return (
+    user?
+    <>
     <Menu
-      items={user ? hasUserMenuItems : hasNoUserMenuItems}
+      items={userIsInstructor? userIsInstructorMenuItems: !userIsInstructor? userIsNotInstructorMenuItems: hasUserMenuItems }
       mode="horizontal"
       onClick={onMenuClick}
       selectedKeys={current}
     />
+    </>:
+    <Menu
+    items={ hasNoUserMenuItems}
+    mode="horizontal"
+    onClick={onMenuClick}
+    selectedKeys={current}
+  />
+
   );
 };
 
