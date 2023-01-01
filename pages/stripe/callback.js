@@ -10,17 +10,23 @@ import axios from "axios";
 const StripeCallback = () => {
   const {
     state: { user },
+    dispatch,
   } = useContext(Context);
 
   useEffect(() => {
     if (user) {
       // Fetch updated user information from Stripe
-      axios.defaults.withCredentials = true
+      axios.defaults.withCredentials = true;
       axios
         .post(`${process.env.NEXT_PUBLIC_API}/get-account-status`)
         .then((res) => {
-          console.log(res);
-          // window.location.href = "/instructor";
+          // console.log(res);
+          dispatch({
+            type: "LOGIN",
+            payload: res.data,
+          });
+          window.localStorage.setItem("user", JSON.stringify(res.data));
+          window.location.href = "/instructor";
         });
     }
   }, [user]);

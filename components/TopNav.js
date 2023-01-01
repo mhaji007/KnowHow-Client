@@ -89,9 +89,9 @@ const TopNav = () => {
       label: <Link href="/">Home</Link>,
     },
     {
-      key: "user/become-instructor",
-      icon: <TeamOutlined />,
-      label: <Link href="/user/become-instructor">Become an Instructor</Link>,
+      key: "instructor/course/create",
+      icon: <CarryOutOutlined />,
+      label: <Link href="/instructor/course/creater">Create a Course</Link>,
       className: "ms-auto",
     },
 
