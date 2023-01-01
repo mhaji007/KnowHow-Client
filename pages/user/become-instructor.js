@@ -27,7 +27,7 @@ const BecomeInstructor = () => {
     // console.log("become instructor");
     setLoading(true);
     axios
-      .post("/api/make-instructor")
+      .get(`${process.env.NEXT_PUBLIC_API}/make-instructor`, {withCredentials: true})
       .then((res) => {
         console.log(res);
         // Open new window using new link retrieved from the backend
