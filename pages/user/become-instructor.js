@@ -26,8 +26,9 @@ const BecomeInstructor = () => {
   const becomeInstructor = () => {
     // console.log("become instructor");
     setLoading(true);
+    axios.defaults.withCredentials = true
     axios
-      .get(`${process.env.NEXT_PUBLIC_API}/make-instructor`, {withCredentials: true})
+      .get(`${process.env.NEXT_PUBLIC_API}/make-instructor`, {withCredentials: true, credentials: 'include'})
       .then((res) => {
         console.log(res);
         // Open new window using new link retrieved from the backend
