@@ -83,6 +83,7 @@ const TopNav = () => {
   ];
 
   const userIsInstructorMenuItems = [
+  
     {
       key: "home",
       icon: <AppstoreOutlined />,
@@ -91,8 +92,13 @@ const TopNav = () => {
     {
       key: "instructor/course/create",
       icon: <CarryOutOutlined />,
-      label: <Link href="/instructor/course/creater">Create a Course</Link>,
+      label: <Link href="/instructor/course/create">Create a Course</Link>,
       className: "ms-auto",
+    },
+    {
+      key: "instructor",
+      icon: <UserAddOutlined />,
+      label: <Link href="/instructor">Instructor Dashboard</Link>,
     },
 
     {
